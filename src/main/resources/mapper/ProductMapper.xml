@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace ="cn.demo_text3.mapper.ProductMapper">
+
+    <resultMap id="productResult" type="cn.demo_text3.entity.Product">
+        <association property="type" column="typeId" select="cn.demo_text3.mapper.SmallTypeMapper.findById"/>
+    </resultMap>
+
+    <select id="list" parameterType="Map" resultMap="productResult">
+        select * from t_product
+        <where>
+            <if test="name!=null and name!=''">
+                and name like concat('%',#{name},'%')
+            </if>
+        </where>
+        <if test="start!=null and pageSize!=null">
+            limit #{start},#{pageSize}
+        </if>
+    </select>
+
+    <select id="getTotal" parameterType="Map" resultType="Long">
+        select count(*) from t_product
+        <where>
+            <if test="name!=null and name!=''">
+                and name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="cn.demo_text3.entity.Product">
+        insert into t_product values(null,#{name},#{price},#{stock},#{proPic},#{hot},#{swiper},#{swiperPic},#{swiperSort},#{type.id},null,#{productIntroImages},#{productParaImages},#{description})
+    </insert>
+
+    <update id="update" parameterType="cn.demo_text3.entity.Product">
+        update t_product
+        <set>
+            <if test="name!=null and name!=''">
+                name=#{name},
+            </if>
+            <if test="price!=null">
+                price=#{price},
+            </if>
+            <if test="stock!=null">
+                stock=#{stock},
+            </if>
+            <if test="type!=null and type.id!=null">
+                typeId=#{type.id},
+            </if>
+            <if test="proPic!=null and proPic!=''">
+                proPic=#{proPic},
+            </if>
+            <if test="description!=null and description!=''">
+                description=#{description},
+            </if>
+            <if test="productIntroImages!=null and productIntroImages!=''">
+                productIntroImages=#{productIntroImages},
+            </if>
+            <if test="productParaImages!=null and productParaImages!=''">
+                productParaImages=#{productParaImages},
+            </if>
+            <if test="swiperPic!=null and swiperPic!=''">
+                swiperPic=#{swiperPic},
+            </if>
+            <if test="swiperSort!=null">
+                swiperSort=#{swiperSort},
+            </if>
+        </set>
+            where id=#{id}
+    </update>
+
+    <select id="findById" parameterType="Integer" resultMap="productResult">
+        select * from t_product where id=#{id}
+    </select>
+
+</mapper>
