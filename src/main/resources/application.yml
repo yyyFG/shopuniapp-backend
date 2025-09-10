@@ -22,9 +22,9 @@ mybatis-plus:
  mapper-locations: classpath:/mapper/*.xml
 
 wexin:
- jscode2sessionUrl: https://api.weixin.qq.com/sns/jscode2session
- appid: wxfa5befdb457bcbf5
- secret: 99e382f756189958a61d722c78bed096
+ jscode2sessionUrl: 
+ appid: 
+ secret: 
 
 bigTypeImagesFilePath: F://competition/project/wx/bigTypeImgs/
 productImagesFilePath: F://competition/project/wx/productImgs/
